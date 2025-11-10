@@ -176,7 +176,8 @@ Se crearon pruebas unitarias en **Foundry** (`KipuBankV3Test.t.sol`) que corren 
 
 *Como abogada incursionando en Solidity... puedo decir que perdí el "juicio" -y en todas las instancias- intentando entender cómo funcionan los smart contracts…*
 
-![manicomio](https://i.ibb.co/7dTYSdqn/manicomiosinfondojpg.jpg)
+<img src="https://i.postimg.cc/kXszMC4C/manicomiosinfondojpg.jpg" alt="Locura Total" width="450"/>
+
 
 ```
 // return 01001001 00100000 01010001 01010101 01001001 01010100 00100001 00001010
