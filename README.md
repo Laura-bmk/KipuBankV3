@@ -45,7 +45,9 @@ El contrato se inicializa con las siguientes dependencias de la red **Sepolia**:
 
 ### 3. Compilación y Testing
 
-```bash
+
+
+```Bash
 # Compilar el proyecto
 forge build
 
@@ -53,15 +55,16 @@ forge build
 # El objetivo es lograr una cobertura igual o superior al 50%
 forge test -vv
 
-### 4. Ejecución del Despliegue
+```
 
-El despliegue se realiza usando el script `DeployKipuBankV3.sol`:
+### 4. Ejecución del Despliegue
+El despliegue se realiza usando el script DeployKipuBankV3.sol: 
 
 ```bash
 # Ejecutar el script de despliegue en Sepolia
 # Los argumentos del constructor se pasan desde el script
 forge script script/DeployKipuBankV3.sol --rpc-url $SEPOLIA_RPC_URL --broadcast --verify
-
+```
 ---
 
 ## 💻 Instrucciones de Interacción (Frontend)
@@ -88,12 +91,15 @@ function depositERC20(
     uint256 amountIn,
     uint256 amountOutMin
 ) external
-2. Depósito de ETH (Token Nativo)
+
+```
+
+### 2. Depósito de ETH (Token Nativo)
 Convierte el valor de ETH a USDC (usando Chainlink) para la evaluación del bankCap y lo registra como USDC en el balance.
 
-Función: deposit
+* **Función:** `deposit`
 
-Solidity
+```Solidity
 
 /**
  * @notice Permite el depósito de Ether (token nativo).
@@ -101,38 +107,39 @@ Solidity
  * @dev Se requiere que msg.value sea superior a cero.
  */
 function deposit() external payable
-3. Depósito Directo de USDC
+```
+
+### 3. Depósito Directo de USDC
 Para cuando el usuario ya tiene USDC.
 
-⚠️ Pre-requisito: El usuario debe aprobar el gasto de USDC al contrato KipuBankV3.
+* **⚠️ Pre-requisito:** El usuario debe aprobar el gasto de USDC al contrato KipuBankV3.
 
-Función: depositUSDC
+* **Función:** `depositUSDC`
 
-Solidity
+```Solidity
 
 /**
  * @notice Permite el depósito directo de USDC.
  * @param amount Cantidad de USDC a depositar.
  */
 function depositUSDC(uint256 amount) external
-4. Retiro
+```
+
+### 4. Retiro
 Permite al usuario retirar su balance en USDC (la moneda interna del banco).
 
-Función: withdraw
+* **Función:** `withdraw`
 
-Solidity
+```Solidity
 
 /**
  * @notice Permite al usuario retirar USDC de su balance.
  * @param amount Cantidad de USDC a retirar.
  */
 function withdraw(uint256 amount) external
-
+```
 ---
 
-### Bloque 2: Informe de Análisis de Amenazas y Seguridad
-
-```markdown
 ## 🛡️ Informe de Análisis de Amenazas y Seguridad
 
 ### Decisiones de Diseño Clave
@@ -151,8 +158,6 @@ function withdraw(uint256 amount) external
 | **Slippage y Liquidez** | El contrato depende del precio de mercado en el *pool* de Uniswap V2, susceptible a volatilidad y manipulación de precio, a pesar del `amountOutMin`. | **Integrar un Oráculo externo (ej. Chainlink)** para validar la cantidad recibida contra un precio de referencia y no solo confiar en la liquidez del *pool*. |
 | **Gas Costos** | Las transacciones de *swap* (`depositERC20`) son más costosas debido a la interacción con el Router V2 y las transferencias de token. | Explorar la optimización de las llamadas de `swapExactTokensForTokens` y considerar *Routers* más eficientes en gas. |
 | **Riesgo de Aprobación Excesiva** | Si el frontend permite aprobar una cantidad ilimitada, representa un riesgo de seguridad en caso de compromiso del contrato. | El frontend debe implementar el patrón de **Aprobación Just-in-Time** (JIT) o **Aprobación Limitada** para mitigar este riesgo. |
-Bloque 3: Pruebas y Cobertura
-Markdown
 
 ## 🧪 Pruebas y Cobertura
 
@@ -167,13 +172,11 @@ Se crearon pruebas unitarias en **Foundry** (`KipuBankV3Test.t.sol`) que corren 
 
 ---
 
-🌐 Área personal 
+## 🌐 Área personal 
 
 *Como abogada incursionando en Solidity... puedo decir que perdí el "juicio" -y en todas las instancias- intentando entender cómo funcionan los smart contracts…*
 
-<p align="center">
-  <img src="https://i.ibb.co/HJJjfTR/Whats-App-Image-2025-11-10-at-1-53-28-AM.jpg" alt="Imagen manicomio" width="250"/>
-</p>
+![manicomio](https://i.ibb.co/7dTYSdqn/manicomiosinfondojpg.jpg)
 
 ```
 // return 01001001 00100000 01010001 01010101 01001001 01010100 00100001 00001010
